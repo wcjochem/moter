@@ -91,6 +91,8 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
 
   if(verbose) print("Clipping morphological tessellation")
   v <- sf::st_intersection(v, limit)
+  vg <- sf::st_multipolygon(lapply(sf::st_geometry(v), function(x) x[1]))
+  sf::st_geometry(v) <- sf::st_cast(sf::st_sfc(vg, crs=sf::st_crs(v)), 'POLYGON')
 
   return(v)
 }
