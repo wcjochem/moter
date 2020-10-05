@@ -51,7 +51,8 @@ MT <- motess(X, unique_id = "UID", verbose=TRUE)
 #> [1] "Dissolving Voroni polygons..."
 #> [1] "Clipping morphological tessellation"
 ```
-The resulting morphological cells are provided as `sf` type spatial polygons. The 
+The resulting morphological cells are provided as `sf` type spatial polygons
+which can be viewed and plotted.
 
 
 ```r
