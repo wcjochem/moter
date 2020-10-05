@@ -8,11 +8,16 @@
 #'   footprint segments. Default 0.5.
 #' @param verbose Display progress. Default True.
 #'
-#' @return Description
+#' @return A spatial dataset in \code{sf} format of the tessellation polygons.
 #'
-#' @details
+#' @details The algorithm is described by Fleischmann et al. (2020).
 #'
-#' @seealso \url{}
+#' @seealso \url{https://docs.momepy.org}
+#' @references Fleischmann, M., A. Feliciotti, O. Romice, S. Porta (2020).
+#'   "Morphological tessellation as a way of partitioning space: Improving
+#'   consistency in urban morphology at the plot scale." \emph{Computers,
+#'   Environment, & Urban Systems}, 80,
+#'   101441.\url{https://doi.org/10.1016/j.compenvurbsys.2019.101441}
 #'
 #' @examples
 #'
