@@ -6,7 +6,7 @@ Authors@R:
            family = "Jochem",
            role = c("aut", "cre"),
            email = "w.c.jochem@soton.ac.uk")
-Description: What the package does (one paragraph).
+Description: Testing the approach to generate morphological cells for plot-level urban morphology analysis.
 Imports:
     sf
 License: GPL-3
