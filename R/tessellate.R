@@ -53,11 +53,15 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
   }
 
   if(any(duplicated(X[[unique_id]]))){
-    stop("Building footprints must have a unique ID")
+    stop("Building footprints must have a unique ID.")
   }
 
   if(missing(limit)){
     limit <- sf::st_as_sfc(sf::st_bbox(X))
+  } else{
+    if(!inherits(X, c("sf","sfc"))){
+      stop("Study limit should be 'sf' or 'sfc' type.")
+    }
   }
 
   if(sf::st_is_longlat(X)){
@@ -67,14 +71,14 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
   }
 
   if (verbose) print("Inward offset...")
-  X <- sf::st_buffer(X, dist=shrink)
+  X <- sf::st_buffer(X, dist=(-1*shrink))
 
   if(verbose) print("Discretization...")
   bpts <- sf::st_cast(sf::st_segmentize(X, segment), "POINT")
   # remove duplicates (rings)
   bpts <- unique(bpts)
 
-  if(verbose) print("Generating Voroni diagram...")
+  print("Generating Voroni diagram...")
   v <- sf::st_voronoi(sf::st_union(bpts), envelope=limit)
   v <- sf::st_collection_extract(v)
 
@@ -84,6 +88,9 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
   v <- aggregate(v[,names(v) != unique_id],
                  by=list(UID = v[[unique_id]]), FUN=sum)
   colnames(v)[colnames(v) == "UID"] <- unique_id
+
+  if(verbose) print("Clipping morphological tessellation")
+  v <- sf::st_intersection(v, limit)
 
   return(v)
 }
