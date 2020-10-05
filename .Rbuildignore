@@ -1,3 +1,5 @@
 ^moter\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^README\.Rmd$
+^building_code\.R$
