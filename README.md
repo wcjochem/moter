@@ -70,7 +70,7 @@ head(MT)
 #> 6   6 2292672 POLYGON ((32.61795 0.328950...
 ```
 
-<img src="man/figures/REAsDME-plotting-1.png" title="Example morphological tessellation" alt="Example morphological tessellation" width="100%" />
+![Example morphological tessellation](man/figures/REAsDME-plotting-1.png)
 
 
 ## References
