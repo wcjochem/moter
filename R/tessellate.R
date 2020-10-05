@@ -1,7 +1,7 @@
 #' Create morphological tessellations
 #'
 #' @param X Spatial polygons of building footprints.
-#' @param unique_id String of a column in \code{X} with unique IDs.
+#' @param unique_id String of a column name in \code{X} with unique IDs.
 #' @param limit Spatial polygon defining the study area.
 #' @param shrink Distance for inward buffer on building footprints. Default 0.4.
 #' @param segment Distance (in meters) between points created on building
@@ -25,6 +25,36 @@
 #' @export
 motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=True){
   # add data checks
+  if(!inherits(X, "sf")){
+    stop("Building footprints should be `sf` format")
+  }
+
+  if(missing(unique_id)){
+    stop("Please provide a column name of unique IDs.")
+  } else {
+    if(!inherits(unique_id, "character")){
+      stop("Please provide a valid column name of unique IDs.")
+    }
+    if(length(unique_id) > 1) unique_id <- unique_id[1]
+
+    if(!unique_id %in% names(X)){
+      stop("Please provide a valid column name of unique IDs.")
+    }
+  }
+
+  if(any(sf::st_geometry_type(X)) %in% "MULTIPOLYGON"){
+    X <- sf::st_cast(X, "POLYGON")
+
+    uID <- strsplit(row.names(X), split=".", fixed=T)
+    uID <- sapply(uID, "[", 2)
+    uID <- ifelse(is.na(uID), "", paste0(".", uID))
+
+    X[[unique_id]] <- paste0(X[[unique_id]], uID)
+  }
+
+  if(any(duplicated(X[[unique_id]]))){
+    stop("Building footprints must have a unique ID")
+  }
 
   if(missing(limit)){
     limit <- sf::st_as_sfc(sf::st_bbox(X))
