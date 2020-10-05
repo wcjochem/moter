@@ -13,7 +13,8 @@ Use at your own risk. The code is implementing an algorithm to create
 tessellated polygon around building footprints. The generated polygons
 efficiently partition a study area space and can be used for as zones for
 calculating urban morphometrics from building shapes. The morphological
-tessellation (MT) was described by Fleischmann et al. (2020) and the algorithm
+tessellation (MT) was described by [Fleischmann et al.
+(2020)](https://doi.org/10.1016/j.compenvurbsys.2019.101441) and the algorithm
 was implemented in [`momepy`](https://docs.momepy.org).
 
 
@@ -69,7 +70,7 @@ head(MT)
 #> 6   6 2292672 POLYGON ((32.61795 0.328950...
 ```
 
-<img src="man/figures/REAsDME-plotting-1.png" title="Example morphological tessellation." alt="Example morphological tessellation." width="100%" />
+<img src="man/figures/REAsDME-plotting-1.png" title="Example morphological tessellation" alt="Example morphological tessellation" width="100%" />
 
 
 ## References
