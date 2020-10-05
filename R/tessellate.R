@@ -23,7 +23,7 @@
 #'
 #' @name motess
 #' @export
-motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=True){
+motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
   # add data checks
   if(!inherits(X, "sf")){
     stop("Building footprints should be `sf` format")
@@ -42,7 +42,7 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=True){
     }
   }
 
-  if(any(sf::st_geometry_type(X)) %in% "MULTIPOLYGON"){
+  if(any(sf::st_geometry_type(X) %in% "MULTIPOLYGON")){
     X <- sf::st_cast(X, "POLYGON")
 
     uID <- strsplit(row.names(X), split=".", fixed=T)
@@ -61,6 +61,8 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=True){
   }
 
   if(sf::st_is_longlat(X)){
+    # quick and dirty approximation
+    # add st_transform
     shrink <- shrink / 111111
   }
 
