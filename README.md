@@ -10,7 +10,7 @@ Chris Jochem
 
 The `moter` package is currently a proof-of-concept and experimental package.
 The code is implementing an algorithm in `R` to create
-vornoi polygons around building footprints. The generated polygons
+voronoi polygons around building footprints. The generated polygons
 efficiently partition a study area space and can be used as zones for
 calculating urban morphometrics from building shapes. The morphological
 tessellation (MT) was described by [Fleischmann et al.
