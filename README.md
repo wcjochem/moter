@@ -17,6 +17,14 @@ tessellation (MT) was described by [Fleischmann et al.
 (2020)](https://doi.org/10.1016/j.compenvurbsys.2019.101441) and the algorithm
 was implemented in [`momepy`](https://docs.momepy.org).
 
+## Installation
+
+The code can be installed from GitHub. It also requires the `sf` package.
+
+```r
+devtools::install_github("wcjochem/moter@main")
+```
+
 
 
 ## Basic usage
@@ -71,7 +79,7 @@ head(MT)
 #> 6   6 2292672 POLYGON ((32.61795 0.328950...
 ```
 
-<img src="man/figures/REAsDME-plotting-1.png" title="Example morphological tessellation" alt="Example morphological tessellation" width="100%" />
+<img src="man/figures/REAsDME-plotting-1.png" title="Example morphological tessellation" alt="Example morphological tessellation" width="50%" />
 
 
 ## References
