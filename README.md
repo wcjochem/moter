@@ -9,13 +9,13 @@ Chris Jochem
 *[WorldPop Research Group, University of Southampton](https://www.worldpop.org/)*
 
 The `moter` package is currently a proof-of-concept and experimental package.
-Use at your own risk. The code is implementing an algorithm to create
-tessellated polygon around building footprints. The generated polygons
-efficiently partition a study area space and can be used for as zones for
+The code is implementing an algorithm in `R` to create
+vornoi polygons around building footprints. The generated polygons
+efficiently partition a study area space and can be used as zones for
 calculating urban morphometrics from building shapes. The morphological
 tessellation (MT) was described by [Fleischmann et al.
 (2020)](https://doi.org/10.1016/j.compenvurbsys.2019.101441) and the algorithm
-was implemented in [`momepy`](https://docs.momepy.org).
+was implemented in Python in [`momepy`](https://docs.momepy.org).
 
 ## Installation
 
