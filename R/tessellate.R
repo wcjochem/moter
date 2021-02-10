@@ -83,6 +83,19 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
   if(any(is.na(geodim))){
     segs <- segs[-which(is.na(geodim)), ]
   }
+
+  # check for inhomogenous geometry types
+  if(class(sf::st_geometry(ses)) == "sfc_GEOMETRY"){
+    segs <- sf::st_cast(segs, "MULTIPOLYGON")
+    segs <- sf::st_cast(segs, "POLYGON")
+
+    uID <- strsplit(row.names(segs), split=".", fixed=T)
+    uID <- sapply(uID, "[", 2)
+    uID <- ifelse(is.na(uID), "", paste0(".", uID))
+
+    segs[[unique_id]] <- paste0(segs[[unique_id]], uID)
+  }
+
   bpts <- sf::st_cast(segs, "POINT")
   # remove duplicates (rings)
   bpts <- unique(bpts)
