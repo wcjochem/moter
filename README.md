@@ -9,13 +9,13 @@ Chris Jochem
 *[WorldPop Research Group, University of Southampton](https://www.worldpop.org/)*
 
 The `moter` package is currently a proof-of-concept and experimental package.
-The code is implementing an algorithm in `R` to create
-voronoi polygons around building footprints. The generated polygons
-efficiently partition a study area space and can be used as zones for
+Use at your own risk. The code is implementing an algorithm to create
+tessellated polygons around building footprints. The generated polygons
+efficiently partition a study area space and can be used for as zones for
 calculating urban morphometrics from building shapes. The morphological
 tessellation (MT) was described by [Fleischmann et al.
 (2020)](https://doi.org/10.1016/j.compenvurbsys.2019.101441) and the algorithm
-was implemented in Python in [`momepy`](https://docs.momepy.org).
+was implemented in [`momepy`](https://docs.momepy.org).
 
 ## Installation
 
@@ -52,12 +52,13 @@ This processing may take some time for large collections of building footprints.
 
 ```r
 # create morphological tessellation
-MT <- motess(X, unique_id = "UID", verbose=TRUE)
-#> [1] "Inward offset..."
-#> [1] "Discretization..."
-#> [1] "Generating Voroni diagram..."
-#> [1] "Dissolving Voroni polygons..."
-#> [1] "Clipping morphological tessellation"
+MT <- motess(X, unique_id = "UID", verbose = TRUE)
+#> Inward offset...
+#> Discretization...
+#> Generating Voroni diagram...
+#> Dissolving Voroni polygons...
+#> Clipping morphological tessellation...
+#> Finished morphological tesselation:  2021-02-10 16:29:37
 ```
 The resulting morphological cells are provided as `sf` type spatial polygons
 which can be viewed and plotted.
