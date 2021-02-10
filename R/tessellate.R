@@ -85,7 +85,7 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
   }
 
   # check for inhomogenous geometry types
-  if(class(sf::st_geometry(ses)) == "sfc_GEOMETRY"){
+  if(class(sf::st_geometry(segs)) == "sfc_GEOMETRY"){
     segs <- sf::st_cast(segs, "MULTIPOLYGON")
     segs <- sf::st_cast(segs, "POLYGON")
 
