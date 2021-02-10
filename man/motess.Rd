@@ -27,7 +27,10 @@ A spatial dataset in \code{sf} format of the tessellation polygons.
 Create morphological tessellations
 }
 \details{
-The algorithm is described by Fleischmann et al. (2020).
+The algorithm is described by Fleischmann et al. (2020). If the
+building footprints are unprojected (i.e using WGS 84 coordinates reference
+system), note that \code{moter} makes a quick approximation for distances
+for the shrink and segment parameters.
 }
 \examples{
 

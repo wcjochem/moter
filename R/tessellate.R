@@ -10,7 +10,10 @@
 #'
 #' @return A spatial dataset in \code{sf} format of the tessellation polygons.
 #'
-#' @details The algorithm is described by Fleischmann et al. (2020).
+#' @details The algorithm is described by Fleischmann et al. (2020). If the
+#'   building footprints are unprojected (i.e using WGS 84 coordinates reference
+#'   system), note that \code{moter} makes a quick approximation for distances
+#'   for the shrink and segment parameters.
 #'
 #' @seealso \url{https://docs.momepy.org}
 #' @references Fleischmann, M., A. Feliciotti, O. Romice, S. Porta (2020).
@@ -70,30 +73,37 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
     shrink <- shrink / 111111
   }
 
-  if (verbose) print("Inward offset...")
+  if (verbose) cat("Inward offset...\n")
   X <- sf::st_buffer(X, dist=(-1*shrink))
 
-  if(verbose) print("Discretization...")
-  bpts <- sf::st_cast(sf::st_segmentize(X, segment), "POINT")
+  if(verbose) cat("Discretization...\n")
+  segs <- sf::st_segmentize(X, segment)
+  # check for NULL geoms (caused by small footprints)
+  geodim <- sf::st_dimension(segs)
+  if(any(is.na(geodim))){
+    segs <- segs[-which(is.na(geodim)), ]
+  }
+  bpts <- sf::st_cast(segs, "POINT")
   # remove duplicates (rings)
   bpts <- unique(bpts)
 
-  print("Generating Voroni diagram...")
+  if(verbose) cat("Generating Voroni diagram...\n")
   v <- sf::st_voronoi(sf::st_union(bpts), envelope=limit)
   v <- sf::st_collection_extract(v)
 
-  if(verbose) print("Dissolving Voroni polygons...")
+  if(verbose) cat("Dissolving Voroni polygons...\n")
   v <- v[unlist(sf::st_intersects(bpts, v))]
   v <- sf::st_join(st_sf(v), bpts)
   v <- aggregate(v[,names(v) != unique_id],
                  by=list(UID = v[[unique_id]]), FUN=sum)
   colnames(v)[colnames(v) == "UID"] <- unique_id
 
-  if(verbose) print("Clipping morphological tessellation")
+  if(verbose) cat("Clipping morphological tessellation...\n")
   v <- sf::st_intersection(v, limit)
   vg <- sf::st_multipolygon(lapply(sf::st_geometry(v), function(x) x[1]))
   sf::st_geometry(v) <- sf::st_cast(sf::st_sfc(vg, crs=sf::st_crs(v)), 'POLYGON')
 
+  if(verbose) cat("Finished morphological tesselation: ", strftime(Sys.time()), "\n")
   return(v)
 }
 
