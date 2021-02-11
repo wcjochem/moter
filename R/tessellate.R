@@ -81,6 +81,8 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
   # check for NULL geoms (caused by small footprints)
   geodim <- sf::st_dimension(segs)
   if(any(is.na(geodim))){
+    warning("Null geometries created. Check for small footprints or reduce shrink parameter.",
+            immediate. = TRUE)
     segs <- segs[-which(is.na(geodim)), ]
   }
 
@@ -113,8 +115,8 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
 
   if(verbose) cat("Clipping morphological tessellation...\n")
   v <- sf::st_intersection(v, limit)
-  vg <- sf::st_multipolygon(lapply(sf::st_geometry(v), function(x) x[1]))
-  sf::st_geometry(v) <- sf::st_cast(sf::st_sfc(vg, crs=sf::st_crs(v)), 'POLYGON')
+  # vg <- sf::st_multipolygon(lapply(sf::st_geometry(v), function(x) x[1]))
+  # sf::st_geometry(v) <- sf::st_cast(sf::st_sfc(vg, crs=sf::st_crs(v)), 'POLYGON')
 
   if(verbose) cat("Finished morphological tesselation: ", strftime(Sys.time()), "\n")
   return(v)
