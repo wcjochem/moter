@@ -109,8 +109,15 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
   if(verbose) cat("Dissolving Voroni polygons...\n")
   v <- v[unlist(sf::st_intersects(bpts, v))]
   v <- sf::st_join(st_sf(v), bpts)
-  v <- aggregate(v[,names(v) != unique_id],
+  # the magic fix
+  v <- sf::st_buffer(v, 0)
+
+  # v <- aggregate(v[,names(v) != unique_id],
+  #                by=list(UID = v[[unique_id]]), FUN=sum)
+
+  v <- aggregate(st_sf(st_geometry(v)),
                  by=list(UID = v[[unique_id]]), FUN=sum)
+
   colnames(v)[colnames(v) == "UID"] <- unique_id
 
   if(verbose) cat("Clipping morphological tessellation...\n")
