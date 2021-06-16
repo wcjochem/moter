@@ -110,8 +110,11 @@ motess <- function(X, unique_id, limit, shrink=0.4, segment=0.5, verbose=TRUE){
   v <- v[unlist(sf::st_intersects(bpts, v))]
   v <- sf::st_join(st_sf(v), bpts)
   # the magic fix
+  v <- sf::st_make_valid(v)
   v <- sf::st_buffer(v, 0)
 
+  # v1 <- lapply(split(v, v$UID), FUN = function(x) sf::st_union(x))
+  # v1 <- do.call(c, v1)
   # v <- aggregate(v[,names(v) != unique_id],
   #                by=list(UID = v[[unique_id]]), FUN=sum)
 
